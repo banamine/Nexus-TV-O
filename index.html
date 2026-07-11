@@ -38,6 +38,15 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #2d2e3d;
     }
+    /* Prevent the player container from shrinking to zero in flex-col view */
+    .flex-1.flex.flex-col.p-6 {
+      min-height: 350px;
+      flex: 1 0 auto;
+    }
+    /* Limit the aside height on mobile to ensure the video remains visible */
+    aside.w-full {
+      max-height: 40vh;
+    }
   </style>
 </head>
 <body class="bg-[#08090c] text-gray-100 flex flex-col h-screen overflow-hidden">
@@ -85,7 +94,7 @@
       <div class="flex-1 flex flex-col p-6 overflow-y-auto space-y-6">
         <div class="relative aspect-video w-full max-w-4xl mx-auto bg-black rounded-2xl border border-white/10 overflow-hidden shadow-2xl flex flex-col justify-between group">
           <!-- HTML5 Video Player -->
-          <video id="video-element" class="absolute inset-0 w-full h-full object-contain" playsinline controls></video>
+          <video id="video-element" class="absolute inset-0 w-full h-full object-contain cursor-pointer" playsinline></video>
           
           <!-- Loading / Idle / Error Splash Overlay -->
           <div id="player-splash" class="absolute inset-0 bg-[#0d0d12]/95 backdrop-blur-sm z-15 flex flex-col items-center justify-center p-6 text-center select-none pointer-events-none transition-opacity duration-500">
@@ -285,14 +294,14 @@
     "accentColor": "#9333ea",
     "shows": [
       {
-        "id": "rcs-show-0-1783767638028-nnpqo",
+        "id": "rcs-show-0-1783769583017-bq4gb",
         "title": "Have Gun – Will Travel",
         "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
         "year": "1957",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-0-1783767638028",
+            "id": "rcs-ep-0-1783769583017",
             "title": "Three Bells To Perdido",
             "season": "1",
             "episodeNumber": "1",
@@ -301,14 +310,14 @@
         ]
       },
       {
-        "id": "rcs-show-1-1783767638028-46imz",
+        "id": "rcs-show-1-1783769583017-oel6j",
         "title": "Rawhide",
         "description": "The challenges faced by the drovers of a cattle drive on the Sedalia Trail.",
         "year": "1959",
         "genre": "Adventure",
         "episodes": [
           {
-            "id": "rcs-ep-1-1783767638028",
+            "id": "rcs-ep-1-1783769583017",
             "title": "Incident Of The Tumbleweed",
             "season": "1",
             "episodeNumber": "1",
@@ -317,14 +326,14 @@
         ]
       },
       {
-        "id": "rcs-show-2-1783767638028-z83v7",
+        "id": "rcs-show-2-1783769583017-t5p8x",
         "title": "Naked City",
         "description": "Gritty police procedurals tracking the stories and crimes of the vast New York metropolis.",
         "year": "1958",
         "genre": "Crime-Drama",
         "episodes": [
           {
-            "id": "rcs-ep-2-1783767638028",
+            "id": "rcs-ep-2-1783769583017",
             "title": "Meridian",
             "season": "1",
             "episodeNumber": "1",
@@ -333,14 +342,14 @@
         ]
       },
       {
-        "id": "rcs-show-3-1783767638028-sflkf",
+        "id": "rcs-show-3-1783769583017-tu699",
         "title": "The Twilight Zone",
         "description": "Classic stories of mystery, sci-fi, and suspense that challenge reality.",
         "year": "1959",
         "genre": "Sci-Fi",
         "episodes": [
           {
-            "id": "rcs-ep-3-1783767638028",
+            "id": "rcs-ep-3-1783769583017",
             "title": "Queen Of The Nile",
             "season": "5",
             "episodeNumber": "24",
@@ -349,14 +358,14 @@
         ]
       },
       {
-        "id": "rcs-show-4-1783767638028-ytlym",
+        "id": "rcs-show-4-1783769583017-s6z1d",
         "title": "Have Gun – Will Travel",
         "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
         "year": "1957",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-4-1783767638028",
+            "id": "rcs-ep-4-1783769583017",
             "title": "The Outlaw",
             "season": "1",
             "episodeNumber": "2",
@@ -365,14 +374,14 @@
         ]
       },
       {
-        "id": "rcs-show-5-1783767638028-95wbt",
+        "id": "rcs-show-5-1783769583017-fdp8l",
         "title": "Rawhide",
         "description": "The challenges faced by the drovers of a cattle drive on the Sedalia Trail.",
         "year": "1959",
         "genre": "Adventure",
         "episodes": [
           {
-            "id": "rcs-ep-5-1783767638028",
+            "id": "rcs-ep-5-1783769583017",
             "title": "Incident At Alabaster Plain",
             "season": "1",
             "episodeNumber": "2",
@@ -381,14 +390,14 @@
         ]
       },
       {
-        "id": "rcs-show-6-1783767638028-vk1of",
+        "id": "rcs-show-6-1783769583017-wcvho",
         "title": "Naked City",
         "description": "Gritty police procedurals tracking the stories and crimes of the vast New York metropolis.",
         "year": "1958",
         "genre": "Crime-Drama",
         "episodes": [
           {
-            "id": "rcs-ep-6-1783767638028",
+            "id": "rcs-ep-6-1783769583017",
             "title": "Nickel Ride",
             "season": "1",
             "episodeNumber": "2",
@@ -397,14 +406,14 @@
         ]
       },
       {
-        "id": "rcs-show-7-1783767638028-xgvy6",
+        "id": "rcs-show-7-1783769583017-9wkib",
         "title": "The Twilight Zone",
         "description": "Classic stories of mystery, sci-fi, and suspense that challenge reality.",
         "year": "1959",
         "genre": "Sci-Fi",
         "episodes": [
           {
-            "id": "rcs-ep-7-1783767638028",
+            "id": "rcs-ep-7-1783769583017",
             "title": "Steel",
             "season": "5",
             "episodeNumber": "2",
@@ -413,14 +422,14 @@
         ]
       },
       {
-        "id": "rcs-show-8-1783767638028-w9tfk",
+        "id": "rcs-show-8-1783769583017-4b8ky",
         "title": "Have Gun – Will Travel",
         "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
         "year": "1957",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-8-1783767638028",
+            "id": "rcs-ep-8-1783769583017",
             "title": "The Great Mojave Chase",
             "season": "1",
             "episodeNumber": "3",
@@ -429,14 +438,14 @@
         ]
       },
       {
-        "id": "rcs-show-9-1783767638028-87ylg",
+        "id": "rcs-show-9-1783769583017-5id12",
         "title": "Rawhide",
         "description": "The challenges faced by the drovers of a cattle drive on the Sedalia Trail.",
         "year": "1959",
         "genre": "Adventure",
         "episodes": [
           {
-            "id": "rcs-ep-9-1783767638028",
+            "id": "rcs-ep-9-1783769583017",
             "title": "Incident With An Executioner",
             "season": "1",
             "episodeNumber": "3",
@@ -445,14 +454,14 @@
         ]
       },
       {
-        "id": "rcs-show-10-1783767638028-s3fxr",
+        "id": "rcs-show-10-1783769583017-clor9",
         "title": "Naked City",
         "description": "Gritty police procedurals tracking the stories and crimes of the vast New York metropolis.",
         "year": "1958",
         "genre": "Crime-Drama",
         "episodes": [
           {
-            "id": "rcs-ep-10-1783767638028",
+            "id": "rcs-ep-10-1783769583017",
             "title": "Line Of Duty",
             "season": "1",
             "episodeNumber": "3",
@@ -461,14 +470,14 @@
         ]
       },
       {
-        "id": "rcs-show-11-1783767638028-s21cv",
+        "id": "rcs-show-11-1783769583017-col15",
         "title": "The Twilight Zone",
         "description": "Classic stories of mystery, sci-fi, and suspense that challenge reality.",
         "year": "1959",
         "genre": "Sci-Fi",
         "episodes": [
           {
-            "id": "rcs-ep-11-1783767638028",
+            "id": "rcs-ep-11-1783769583017",
             "title": "Nightmare At 20,000 Feet",
             "season": "5",
             "episodeNumber": "3",
@@ -477,14 +486,14 @@
         ]
       },
       {
-        "id": "rcs-show-12-1783767638028-ikyb4",
+        "id": "rcs-show-12-1783769583017-iqvam",
         "title": "Have Gun – Will Travel",
         "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
         "year": "1957",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-12-1783767638028",
+            "id": "rcs-ep-12-1783769583017",
             "title": "Winchester Quarantine",
             "season": "1",
             "episodeNumber": "4",
@@ -493,14 +502,14 @@
         ]
       },
       {
-        "id": "rcs-show-13-1783767638028-fdadc",
+        "id": "rcs-show-13-1783769583017-dxi6o",
         "title": "Wagon Train",
         "description": "Following a caravan of pioneers as they make the grueling trek across the plains.",
         "year": "1957",
         "genre": "Adventure",
         "episodes": [
           {
-            "id": "rcs-ep-13-1783767638028",
+            "id": "rcs-ep-13-1783769583017",
             "title": "The Willy Moran Story",
             "season": "1",
             "episodeNumber": "101",
@@ -509,14 +518,14 @@
         ]
       },
       {
-        "id": "rcs-show-14-1783767638028-l3gok",
+        "id": "rcs-show-14-1783769583017-jjl12",
         "title": "Man with a Camera",
         "description": "Charles Bronson stars as Mike Kovac, a freelance photojournalist helping solve city cases.",
         "year": "1958",
         "genre": "Mystery",
         "episodes": [
           {
-            "id": "rcs-ep-14-1783767638028",
+            "id": "rcs-ep-14-1783769583017",
             "title": "Second Avenue Assassin",
             "season": "1",
             "episodeNumber": "1",
@@ -525,14 +534,14 @@
         ]
       },
       {
-        "id": "rcs-show-15-1783767638028-54grj",
+        "id": "rcs-show-15-1783769583017-7c03v",
         "title": "Gunsmoke",
         "description": "Marshall Matt Dillon maintains peace and justice in Dodge City.",
         "year": "1955",
         "genre": "Western-Drama",
         "episodes": [
           {
-            "id": "rcs-ep-15-1783767638028",
+            "id": "rcs-ep-15-1783769583017",
             "title": "The Noose",
             "season": "16",
             "episodeNumber": "1",
@@ -541,14 +550,14 @@
         ]
       },
       {
-        "id": "rcs-show-16-1783767638028-9mowl",
+        "id": "rcs-show-16-1783769583017-n70jm",
         "title": "Have Gun – Will Travel",
         "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
         "year": "1957",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-16-1783767638028",
+            "id": "rcs-ep-16-1783769583017",
             "title": "A Matter Of Ethics",
             "season": "1",
             "episodeNumber": "5",
@@ -557,14 +566,14 @@
         ]
       },
       {
-        "id": "rcs-show-17-1783767638028-lx4o4",
+        "id": "rcs-show-17-1783769583017-bbdq9",
         "title": "Wagon Train",
         "description": "Following a caravan of pioneers as they make the grueling trek across the plains.",
         "year": "1957",
         "genre": "Adventure",
         "episodes": [
           {
-            "id": "rcs-ep-17-1783767638028",
+            "id": "rcs-ep-17-1783769583017",
             "title": "The Jean Lebec Story",
             "season": "1",
             "episodeNumber": "102",
@@ -573,14 +582,14 @@
         ]
       },
       {
-        "id": "rcs-show-18-1783767638028-gmfe9",
+        "id": "rcs-show-18-1783769583017-xpa7i",
         "title": "Man with a Camera",
         "description": "Charles Bronson stars as Mike Kovac, a freelance photojournalist helping solve city cases.",
         "year": "1958",
         "genre": "Mystery",
         "episodes": [
           {
-            "id": "rcs-ep-18-1783767638028",
+            "id": "rcs-ep-18-1783769583017",
             "title": "The Warning",
             "season": "1",
             "episodeNumber": "2",
@@ -589,14 +598,14 @@
         ]
       },
       {
-        "id": "rcs-show-19-1783767638028-ov0zr",
+        "id": "rcs-show-19-1783769583017-k44gz",
         "title": "Gunsmoke",
         "description": "Marshall Matt Dillon maintains peace and justice in Dodge City.",
         "year": "1955",
         "genre": "Western-Drama",
         "episodes": [
           {
-            "id": "rcs-ep-19-1783767638028",
+            "id": "rcs-ep-19-1783769583017",
             "title": "Chato",
             "season": "16",
             "episodeNumber": "2",
@@ -605,14 +614,14 @@
         ]
       },
       {
-        "id": "rcs-show-20-1783767638028-ivku5",
+        "id": "rcs-show-20-1783769583017-lfzo5",
         "title": "Have Gun – Will Travel",
         "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
         "year": "1957",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-20-1783767638028",
+            "id": "rcs-ep-20-1783769583017",
             "title": "The Bride",
             "season": "1",
             "episodeNumber": "6",
@@ -621,14 +630,14 @@
         ]
       },
       {
-        "id": "rcs-show-21-1783767638028-73l2m",
+        "id": "rcs-show-21-1783769583017-lrwp2",
         "title": "Wagon Train",
         "description": "Following a caravan of pioneers as they make the grueling trek across the plains.",
         "year": "1957",
         "genre": "Adventure",
         "episodes": [
           {
-            "id": "rcs-ep-21-1783767638028",
+            "id": "rcs-ep-21-1783769583017",
             "title": "The John Cameron Story",
             "season": "1",
             "episodeNumber": "103",
@@ -637,14 +646,14 @@
         ]
       },
       {
-        "id": "rcs-show-22-1783767638028-nt9aq",
+        "id": "rcs-show-22-1783769583017-lp1nb",
         "title": "Man with a Camera",
         "description": "Charles Bronson stars as Mike Kovac, a freelance photojournalist helping solve city cases.",
         "year": "1958",
         "genre": "Mystery",
         "episodes": [
           {
-            "id": "rcs-ep-22-1783767638028",
+            "id": "rcs-ep-22-1783769583017",
             "title": "Turntable",
             "season": "1",
             "episodeNumber": "4",
@@ -653,14 +662,14 @@
         ]
       },
       {
-        "id": "rcs-show-23-1783767638028-03sk1",
+        "id": "rcs-show-23-1783769583017-1dcia",
         "title": "Have Gun – Will Travel",
         "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
         "year": "1957",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-23-1783767638028",
+            "id": "rcs-ep-23-1783769583017",
             "title": "Ella West",
             "season": "1",
             "episodeNumber": "17",
@@ -669,14 +678,14 @@
         ]
       },
       {
-        "id": "rcs-show-24-1783767638028-zury7",
+        "id": "rcs-show-24-1783769583017-9bdp2",
         "title": "Johnny Staccato",
         "description": "A Greenwich Village jazz pianist doubles as a private investigator in New York.",
         "year": "1959",
         "genre": "Noir-Crime",
         "episodes": [
           {
-            "id": "rcs-ep-24-1783767638028",
+            "id": "rcs-ep-24-1783769583017",
             "title": "Viva, Paco!",
             "season": "1",
             "episodeNumber": "6",
@@ -685,14 +694,14 @@
         ]
       },
       {
-        "id": "rcs-show-25-1783767638028-ic00w",
+        "id": "rcs-show-25-1783769583017-zbkof",
         "title": "Wanted: Dead or Alive",
         "description": "Josh Randall is a sympathetic bounty hunter who gives a part of his bounty to his clients.",
         "year": "1958",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-25-1783767638028",
+            "id": "rcs-ep-25-1783769583017",
             "title": "The Martin Poster",
             "season": "1",
             "episodeNumber": "1",
@@ -701,14 +710,14 @@
         ]
       },
       {
-        "id": "rcs-show-26-1783767638028-af166",
+        "id": "rcs-show-26-1783769583017-lw94g",
         "title": "Johnny Staccato",
         "description": "A Greenwich Village jazz pianist doubles as a private investigator in New York.",
         "year": "1959",
         "genre": "Noir-Crime",
         "episodes": [
           {
-            "id": "rcs-ep-26-1783767638028",
+            "id": "rcs-ep-26-1783769583017",
             "title": "Murder In Hi-Fi",
             "season": "1",
             "episodeNumber": "8",
@@ -717,14 +726,14 @@
         ]
       },
       {
-        "id": "rcs-show-27-1783767638028-yqn0v",
+        "id": "rcs-show-27-1783769583017-9c2rs",
         "title": "Wanted: Dead or Alive",
         "description": "Josh Randall is a sympathetic bounty hunter who gives a part of his bounty to his clients.",
         "year": "1958",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-27-1783767638028",
+            "id": "rcs-ep-27-1783769583017",
             "title": "Fatal Memory",
             "season": "1",
             "episodeNumber": "2",
@@ -733,14 +742,14 @@
         ]
       },
       {
-        "id": "rcs-show-28-1783767638028-poppi",
+        "id": "rcs-show-28-1783769583017-x380e",
         "title": "Wanted: Dead or Alive",
         "description": "Josh Randall is a sympathetic bounty hunter who gives a part of his bounty to his clients.",
         "year": "1958",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-28-1783767638028",
+            "id": "rcs-ep-28-1783769583017",
             "title": "The Bounty",
             "season": "1",
             "episodeNumber": "3",
@@ -749,14 +758,14 @@
         ]
       },
       {
-        "id": "rcs-show-29-1783767638028-8tf0l",
+        "id": "rcs-show-29-1783769583017-fu8mh",
         "title": "Wanted: Dead or Alive",
         "description": "Josh Randall is a sympathetic bounty hunter who gives a part of his bounty to his clients.",
         "year": "1958",
         "genre": "Western",
         "episodes": [
           {
-            "id": "rcs-ep-29-1783767638028",
+            "id": "rcs-ep-29-1783769583017",
             "title": "Dead End",
             "season": "1",
             "episodeNumber": "4",
@@ -1274,6 +1283,49 @@
       hasInteracted = true;
       startActiveStream();
     };
+
+    // Custom play/pause listener on click to avoid interaction dead zones
+    const video = document.getElementById('video-element');
+    video.onclick = function() {
+      if (!hasInteracted) return;
+      if (video.paused) {
+        video.play().catch(e => console.log("Stream play blocked or failed: " + e));
+        document.getElementById('splash-status-text').innerText = "Streaming Active";
+      } else {
+        video.pause();
+        document.getElementById('splash-status-text').innerText = "Streaming Paused";
+      }
+    };
+
+    // Stuck Detection Engine to handle rapid waiting loop state stalls
+    let lastTime = video.currentTime;
+    let lastChecked = Date.now();
+    let consecutiveStuckCount = 0;
+
+    setInterval(() => {
+      if (video && !video.paused && !video.ended && video.readyState >= 1) {
+        const now = Date.now();
+        const curTime = video.currentTime;
+
+        if (curTime === lastTime) {
+          const durationSinceLastAdvance = now - lastChecked;
+          if (durationSinceLastAdvance >= 1000) {
+            consecutiveStuckCount++;
+            console.warn("[Playback Health]: Stuck detected at " + curTime.toFixed(3) + "s. Nudging currentTime by +0.1s (Attempt #" + consecutiveStuckCount + ")");
+            
+            video.currentTime = Math.min(video.duration || Infinity, curTime + 0.1);
+            lastChecked = Date.now();
+          }
+        } else {
+          lastTime = curTime;
+          lastChecked = now;
+          consecutiveStuckCount = 0;
+        }
+      } else if (video) {
+        lastTime = video.currentTime;
+        lastChecked = Date.now();
+      }
+    }, 250);
 
     // 4. INITIALIZE BOOTSTRAP
     window.onload = function() {
