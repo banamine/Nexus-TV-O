@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexus Auto-Scheduled TV Guide - Static Broadcast Player</title>
+  <title>${playlistName} - Cinema Live Player</title>
   
-  <!-- Tailwind CSS for high fidelity presentation -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- HLS.js CDN for HLS streaming support (.m3u8 streams) -->
+  <!-- HLS.js CDN for live m3u8 streaming support -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800;900&family=JetBrains+Mono:wght=400;500;700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -23,996 +23,220 @@
     .font-mono {
       font-family: 'JetBrains Mono', monospace;
     }
-    /* Custom dark scrollbar */
+    /* Hide scrollbar utility */
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Custom scrollbar */
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 4px;
+      height: 4px;
     }
     ::-webkit-scrollbar-track {
-      background: #0d0e12;
+      background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: #1f2029;
-      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #2d2e3d;
-    }
-    /* Prevent the player container from shrinking to zero in flex-col view */
-    .flex-1.flex.flex-col.p-6 {
-      min-height: 350px;
-      flex: 1 0 auto;
-    }
-    /* Limit the aside height on mobile to ensure the video remains visible */
-    aside.w-full {
-      max-height: 40vh;
+      background: rgba(255, 255, 255, 0.2);
     }
   </style>
 </head>
-<body class="bg-[#08090c] text-gray-100 flex flex-col h-screen overflow-hidden">
+<body class="bg-[#050508] text-gray-100 flex flex-col h-screen w-screen overflow-hidden relative select-none">
 
-  <!-- TOP HEADER NAV BAR -->
-  <header class="bg-[#0f111a] border-b border-purple-950/40 px-6 py-4 flex items-center justify-between shrink-0">
-    <div class="flex items-center gap-3">
-      <div class="p-2 bg-purple-900/40 border border-purple-500/30 rounded-lg text-purple-400">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path></svg>
-      </div>
-      <div>
-        <h1 class="text-sm font-black uppercase tracking-wider text-white">NEXUS PRO STATION PLAYER</h1>
-        <p class="text-[10px] text-purple-400/80 font-mono uppercase tracking-widest mt-0.5">Auto-Scheduled Virtual Loop</p>
-      </div>
-    </div>
-    <div class="flex items-center gap-4">
-      <div class="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
-        <div class="w-2 h-2 rounded-full bg-red-500 animate-ping"></div>
-        <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Live Engine Active</span>
-      </div>
-      <div id="system-clock" class="text-xs font-mono text-purple-400 font-bold tracking-wider">00:00:00 AM</div>
-    </div>
-  </header>
+  <!-- Ambient Glow Backing Layer -->
+  <div id="ambient-backdrop-glow" class="absolute inset-0 pointer-events-none transition-all duration-1000 opacity-20 filter blur-[120px] z-0"></div>
 
-  <!-- MAIN WORKSPACE -->
-  <main class="flex-1 flex overflow-hidden w-full">
+  <!-- MAIN VIDEO CANVAS WRAPPER -->
+  <div id="video-canvas-container" class="absolute inset-0 w-full h-full bg-black overflow-hidden flex flex-col justify-between z-1">
     
-    <!-- LEFT SIDEBAR: CHANNELS LIST -->
-    <aside class="w-80 bg-[#0c0d12] border-r border-purple-950/20 flex flex-col h-full overflow-hidden">
-      <div class="p-4 border-b border-white/5 shrink-0">
-        <h2 class="text-[10px] font-bold text-purple-400 uppercase tracking-widest flex items-center gap-2">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
-          STATION DIRECTORY (<span id="channel-count">0</span>)
-        </h2>
-      </div>
-      <div id="channel-list" class="flex-1 overflow-y-auto p-2.5 space-y-1.5">
-        <!-- Dyn Loaded Channels go here -->
-      </div>
-    </aside>
+    <!-- HTML5 Video Element -->
+    <video id="video-element" class="absolute inset-0 w-full h-full object-cover cursor-pointer transition-all duration-500" playsinline></video>
 
-    <!-- RIGHT GRID: ACTIVE PLAYER & SCHEDULE -->
-    <div class="flex-1 flex flex-col lg:flex-row overflow-hidden bg-[#07080a]">
-      
-      <!-- CENTER: PLAYER STAGE -->
-      <div class="flex-1 flex flex-col p-6 overflow-y-auto space-y-6">
-        <div class="relative aspect-video w-full max-w-4xl mx-auto bg-black rounded-2xl border border-white/10 overflow-hidden shadow-2xl flex flex-col justify-between group">
-          <!-- HTML5 Video Player -->
-          <video id="video-element" class="absolute inset-0 w-full h-full object-contain cursor-pointer" playsinline></video>
-          
-          <!-- Loading / Idle / Error Splash Overlay -->
-          <div id="player-splash" class="absolute inset-0 bg-[#0d0d12]/95 backdrop-blur-sm z-15 flex flex-col items-center justify-center p-6 text-center select-none pointer-events-none transition-opacity duration-500">
-            <div class="absolute inset-0 bg-radial from-purple-950/20 via-transparent to-transparent pointer-events-none opacity-40"></div>
-            <div class="p-4 bg-black border border-purple-500/20 rounded-full mb-3 animate-bounce">
-              <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <h3 id="splash-channel-name" class="text-base font-black text-white uppercase tracking-wider">SELECT STATION</h3>
-            <p id="splash-status-text" class="text-[10px] text-purple-400 font-mono tracking-widest mt-1 uppercase">Broadcast engine waiting</p>
-            
-            <button id="btn-start-play" class="mt-4 px-6 py-2 bg-purple-700 text-white text-xs font-bold rounded-full hover:bg-purple-600 shadow-lg pointer-events-auto transition-transform active:scale-95 uppercase tracking-wider">
-              Start Stream Loop
-            </button>
-          </div>
-          
-          <!-- Info overlay banner -->
-          <div class="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/85 to-transparent flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-            <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 bg-red-600 text-white text-[9px] font-bold rounded animate-pulse">LIVE</span>
-              <div class="text-left">
-                <h4 id="overlay-show-title" class="text-xs font-bold text-white">Direct Stream Feed</h4>
-                <p id="overlay-episode-title" class="text-[10px] text-white/70">Broadcasting Now</p>
-              </div>
-            </div>
-          </div>
+    <!-- Subtle Centered Buffering Spinner Overlay (z-12) -->
+    <div id="buffer-spinner" class="absolute inset-0 z-12 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] opacity-0 pointer-events-none transition-opacity duration-300">
+      <div class="flex flex-col items-center gap-3 p-4 bg-black/80 border border-white/10 rounded-2xl shadow-2xl">
+        <div class="relative w-10 h-10">
+          <!-- Outer Track -->
+          <div class="absolute inset-0 rounded-full border-2 border-white/5"></div>
+          <!-- Spinning Arc -->
+          <div class="absolute inset-0 rounded-full border-2 border-t-purple-500 border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
         </div>
-
-        <!-- TUNER DETAILS CARD -->
-        <div class="bg-[#0f111a] border border-white/5 rounded-xl p-5 max-w-4xl mx-auto w-full text-left space-y-4 shadow-xl">
-          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/5">
-            <div class="flex items-center gap-3">
-              <div id="detail-channel-logo" class="w-12 h-7 bg-purple-900 rounded flex items-center justify-center text-[10px] font-black text-white font-mono">
-                LIVE
-              </div>
-              <div>
-                <h3 id="detail-channel-name" class="text-sm font-black text-white uppercase">No Channel Selected</h3>
-                <p id="detail-channel-tag" class="text-xs text-gray-400 mt-0.5">Please select a channel from the sidebar.</p>
-              </div>
-            </div>
-            <span id="detail-channel-group" class="px-3 py-1 bg-white/5 border border-white/5 text-[9px] text-purple-400 rounded-full font-mono font-bold uppercase tracking-widest">
-              N/A
-            </span>
-          </div>
-
-          <div class="pt-1">
-            <div class="space-y-1">
-              <span class="text-[9px] font-mono text-gray-500 uppercase tracking-widest">Virtual EPG Progress:</span>
-              <div id="detail-epg-status" class="text-xs font-sans text-purple-400 font-bold bg-purple-950/10 p-2 rounded border border-purple-500/10 flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Syncing loop timeline
-              </div>
-            </div>
-            <!-- Hidden to remove UI reference but preserve Javascript target compatibility -->
-            <div id="detail-stream-url" class="hidden"></div>
-          </div>
+        <div class="text-center">
+          <p class="text-[10px] font-mono font-black text-white uppercase tracking-widest animate-pulse">Buffering Stream</p>
+          <p class="text-[9px] font-mono text-white/40 mt-0.5 uppercase tracking-wider">Awaiting Stream Packets...</p>
         </div>
       </div>
-
-      <!-- RIGHT SIDEBAR: PROGRAM EPG GUIDE -->
-      <aside class="w-full lg:w-80 bg-[#0a0b0f] border-t lg:border-t-0 lg:border-l border-purple-950/20 flex flex-col h-full overflow-hidden">
-        <div class="p-4 border-b border-white/5 shrink-0 text-left">
-          <h2 class="text-[10px] font-bold text-purple-400 uppercase tracking-widest flex items-center gap-2">
-            <svg class="w-3.5 h-3.5 text-purple-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-            AUTO-SCHEDULED TIMELINE
-          </h2>
-        </div>
-        <div class="p-4 bg-black/40 border-b border-white/5 space-y-1 text-left shrink-0">
-          <span class="text-[9px] font-mono text-gray-500 uppercase tracking-wider block">EPG Live Block:</span>
-          <div id="live-epg-title" class="text-xs font-bold text-white truncate">Direct Stream Mode</div>
-          <div id="live-epg-meta" class="text-[10px] font-mono text-purple-400">Looping continuous feeds</div>
-        </div>
-        <div id="epg-slots" class="flex-1 overflow-y-auto p-3 space-y-2 text-left">
-          <!-- Upcoming slots loaded here -->
-        </div>
-      </aside>
-
     </div>
-  </main>
 
-  <!-- DATA & LOGIC BLOCK -->
+    <!-- Edge-to-Edge Initial Setup / Branding Splash Screen (z-25) -->
+    <div id="player-splash" class="absolute inset-0 bg-[#07070a]/95 backdrop-blur-md z-25 flex flex-col items-center justify-center p-6 text-center transition-all duration-500">
+      <div class="absolute inset-0 bg-gradient-to-tr from-purple-950/10 via-transparent to-transparent pointer-events-none opacity-40"></div>
+      
+      <div class="text-center relative z-20 px-6 py-8 rounded-2xl max-w-md bg-[#111116] border border-white/5 shadow-2xl">
+        <div class="inline-flex items-center justify-center p-3.5 bg-black border border-purple-500/20 rounded-full mb-4 animate-bounce">
+          <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
+          </svg>
+        </div>
+        <h2 id="splash-channel-name" class="text-lg font-black tracking-tight text-white uppercase font-sans">CINEMA CHANNELS</h2>
+        <p id="splash-status-text" class="text-[10px] text-purple-400 font-mono tracking-widest mt-1 uppercase">Broadcast engine waiting</p>
+        
+        <button id="btn-start-play" class="mt-6 px-6 py-2.5 bg-purple-600 text-white text-xs font-black rounded-full hover:bg-purple-500 shadow-lg pointer-events-auto transition-transform active:scale-95 uppercase tracking-widest border border-purple-400/20">
+          Start Stream Loop
+        </button>
+      </div>
+
+      <div class="absolute bottom-6 left-6 text-left">
+        <div class="text-white/20 font-mono text-[9px] uppercase tracking-widest">NEXUS CINEMA CORE</div>
+        <div class="text-white/40 text-xs font-sans">Readying virtual scheduled broadcasts...</div>
+      </div>
+    </div>
+
+    <!-- Quick-instructions bottom-left hotkeys guide -->
+    <div id="corner-keys" class="fixed bottom-4 left-6 z-40 text-left opacity-100 transition-opacity duration-300 select-none pointer-events-none">
+      <p class="text-[10px] font-mono text-white/40 leading-normal uppercase tracking-wider">
+        [M] Left Menu • [G] Bottom Guide • [A] Toggle Ratio
+      </p>
+    </div>
+
+    <!-- TOP HUD OVERLAY CONTROLS BAR (z-40) -->
+    <div id="top-hud" class="fixed top-4 right-4 z-40 flex items-center gap-3 transition-all duration-300">
+      
+      <!-- HUD Status Pill -->
+      <div class="flex items-center gap-2 px-3.5 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10 text-[10px] font-mono shadow-xl">
+        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+        <span class="text-white/50">STATION:</span>
+        <strong id="hud-channel-name" class="text-white tracking-wide uppercase">OFFLINE</strong>
+      </div>
+
+      <!-- Aspect Ratio Button -->
+      <button id="hud-ratio-btn" class="px-3.5 py-2 bg-black/60 hover:bg-black/80 backdrop-blur-md text-white border border-white/10 text-[10px] font-mono rounded-full flex items-center gap-1.5 shadow-lg active:scale-95 transition-all cursor-pointer" title="Toggle Aspect Ratio: Cover (Full Screen) vs Contain (Letterbox)">
+        <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+        <span>RATIO: COVER</span>
+      </button>
+
+      <!-- Station Directory Drawer Toggle Button -->
+      <button id="hud-menu-btn" class="px-4 py-2 bg-[#121217] hover:bg-[#1a1a24] backdrop-blur-md text-white border border-white/10 text-[10px] font-black tracking-widest rounded-full flex items-center gap-2 shadow-lg active:scale-95 transition-all cursor-pointer">
+        <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        <span>CHANNELS</span>
+      </button>
+
+      <!-- EPG TV Guide Toggle Button -->
+      <button id="hud-guide-btn" class="px-4 py-2 bg-[#121217] hover:bg-[#1a1a24] backdrop-blur-md text-white border border-white/10 text-[10px] font-black tracking-widest rounded-full flex items-center gap-2 shadow-lg active:scale-95 transition-all cursor-pointer">
+        <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        <span>TV GUIDE</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- SLIDING LEFT STATION DRAWER (z-45) -->
+  <aside id="left-drawer" class="fixed top-0 bottom-0 left-0 w-80 bg-[#07070a]/95 border-r border-white/10 backdrop-blur-md transform -translate-x-full transition-transform duration-500 z-45 flex flex-col overflow-hidden text-left shadow-2xl">
+    
+    <!-- Ambient channel glow backing -->
+    <div id="drawer-glow" class="absolute inset-0 pointer-events-none transition-all duration-700 opacity-20 filter blur-[80px] z-0"></div>
+
+    <!-- Header -->
+    <div class="p-4 border-b border-white/10 bg-black/40 z-10">
+      <div class="flex items-center gap-2 text-purple-400 mb-1">
+        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4"></path></svg>
+        <h2 class="text-xs font-black tracking-widest text-white uppercase font-sans">STATION DIRECTORY</h2>
+      </div>
+      <p class="text-[9px] font-mono text-gray-500 uppercase tracking-widest">Select station tuner</p>
+    </div>
+
+    <!-- Search box -->
+    <div class="p-3 border-b border-white/5 bg-black/20 z-10">
+      <div class="relative">
+        <input id="drawer-search" type="text" placeholder="Search playlist..." class="w-full bg-[#111115] border border-white/10 focus:border-purple-500/50 rounded-lg px-3 py-2 text-xs font-mono text-white placeholder-gray-500 outline-none transition-all">
+      </div>
+    </div>
+
+    <!-- Categories ribbon row -->
+    <div id="drawer-categories" class="flex gap-1.5 overflow-x-auto p-3 border-b border-white/5 scrollbar-none bg-black/20 shrink-0 z-10">
+      <!-- Dyn Loaded Categories Buttons -->
+    </div>
+
+    <!-- Channel list -->
+    <div id="drawer-channel-list" class="flex-1 overflow-y-auto p-2 space-y-1 z-10">
+      <!-- Dyn Loaded Channel Buttons -->
+    </div>
+  </aside>
+
+  <!-- SLIDING BOTTOM TV GUIDE OVERLAY (z-45) -->
+  <aside id="bottom-guide" class="fixed bottom-0 left-0 right-0 h-72 bg-[#07070a]/95 border-t border-white/10 backdrop-blur-md transform translate-y-full transition-transform duration-500 z-45 flex flex-col p-4 text-white overflow-hidden shadow-2xl text-left">
+    
+    <!-- Ambient channel glow backing -->
+    <div id="guide-glow" class="absolute inset-0 pointer-events-none transition-all duration-700 opacity-20 filter blur-[80px] z-0"></div>
+
+    <!-- Header Row -->
+    <div class="flex items-center justify-between border-b border-white/5 pb-2 mb-3 shrink-0 z-10">
+      <div class="flex items-center gap-3">
+        <div id="guide-badge" class="px-2 py-0.5 rounded text-[10px] font-black tracking-widest text-white font-mono border border-white/10" style="background-color: rgb(140, 92, 208);">WSTN</div>
+        <div class="text-left">
+          <h2 id="guide-channel-name" class="text-xs font-black tracking-wider uppercase text-white font-sans">No Channel</h2>
+          <p id="guide-channel-tagline" class="text-[9px] font-mono text-purple-400">EPG Live Scheduler</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="px-2.5 py-0.5 text-[9px] bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full font-mono uppercase tracking-widest">
+          TV Shows
+        </span>
+      </div>
+    </div>
+
+    <!-- Main current show details bar -->
+    <div class="bg-black/40 border border-white/5 rounded-lg p-3 mb-3 flex items-center justify-between z-10 shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>
+        <div>
+          <span class="text-[9px] font-mono text-gray-500 uppercase tracking-wider block">EPG Live Block:</span>
+          <h3 id="guide-current-show-title" class="text-xs font-bold text-white uppercase tracking-wider">Loading...</h3>
+          <p id="guide-current-show-episode" class="text-[10px] text-gray-400">Loading schedule...</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <span id="guide-clock" class="text-xs font-mono font-bold text-purple-400 bg-purple-950/20 px-3 py-1.5 rounded border border-purple-500/10">00:00:00 AM</span>
+      </div>
+    </div>
+
+    <!-- Timeline header -->
+    <div class="text-[9px] font-mono text-gray-500 uppercase tracking-widest mb-1.5 z-10 shrink-0">
+      Auto-Scheduled Virtual Loop Schedule
+    </div>
+
+    <!-- Horizontal timeline slots container -->
+    <div id="guide-slots" class="flex-1 flex gap-3 pb-1 pr-1 overflow-x-auto z-10 scrollbar-none">
+      <!-- Dyn Loaded Slots -->
+    </div>
+  </aside>
+
+  <!-- DATA & LOGIC INTERACTIVE ENGINE -->
   <script>
     // 1. EMBEDDED CHANNELS DATA (M3U PRO GENERATED)
-    const CHANNELS = [
-  {
-    "id": "ch-westerns",
-    "number": "101",
-    "name": "Classic Westerns HD",
-    "tagline": "High-noon showdowns and frontier justice.",
-    "category": "TV Shows",
-    "logoText": "WSTN",
-    "accentColor": "#d97706",
-    "shows": [
-      {
-        "id": "have-gun-will-travel",
-        "title": "Have Gun – Will Travel",
-        "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
-        "year": "1957",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "hg-01",
-            "title": "Three Bells To Perdido",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E01%20Three%20Bells%20To%20Predido.ia.mp4"
-          },
-          {
-            "id": "hg-02",
-            "title": "The Outlaw",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E02%20The%20Outlaw.ia.mp4"
-          },
-          {
-            "id": "hg-03",
-            "title": "The Great Mojave Chase",
-            "season": "1",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E03%20The%20Great%20Mojave%20Chase.ia.mp4"
-          },
-          {
-            "id": "hg-04",
-            "title": "Winchester Quarantine",
-            "season": "1",
-            "episodeNumber": "4",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E04%20Winchester%20Quarantine.ia.mp4"
-          },
-          {
-            "id": "hg-05",
-            "title": "A Matter Of Ethics",
-            "season": "1",
-            "episodeNumber": "5",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E05%20A%20Matter%20Of%20Ethics.ia.mp4"
-          },
-          {
-            "id": "hg-06",
-            "title": "The Bride",
-            "season": "1",
-            "episodeNumber": "6",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E06%20The%20Bride.ia.mp4"
-          },
-          {
-            "id": "hg-17",
-            "title": "Ella West",
-            "season": "1",
-            "episodeNumber": "17",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E17%20Ella%20West.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "wanted-dead-or-alive",
-        "title": "Wanted: Dead or Alive",
-        "description": "Josh Randall is a sympathetic bounty hunter who gives a part of his bounty to his clients.",
-        "year": "1958",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "wda-01",
-            "title": "The Martin Poster",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E01_Ep%201%20-%20The%20Martin%20Poster.mp4"
-          },
-          {
-            "id": "wda-02",
-            "title": "Fatal Memory",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E02_Ep%202%20-%20Fatal%20Memory.mp4"
-          },
-          {
-            "id": "wda-03",
-            "title": "The Bounty",
-            "season": "1",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E03_Ep%203%20-%20The%20Bounty.mp4"
-          },
-          {
-            "id": "wda-04",
-            "title": "Dead End",
-            "season": "1",
-            "episodeNumber": "4",
-            "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E04_Ep%204%20-%20Dead%20End.mp4"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "ch-retro-adventure",
-    "number": "102",
-    "name": "Classic Cinema & Movies",
-    "tagline": "Feature-length dramas and historic epics.",
-    "category": "Movies",
-    "logoText": "FILM",
-    "accentColor": "#9333ea",
-    "shows": [
-      {
-        "id": "rcs-show-0-1783769583017-bq4gb",
-        "title": "Have Gun – Will Travel",
-        "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
-        "year": "1957",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-0-1783769583017",
-            "title": "Three Bells To Perdido",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E01%20Three%20Bells%20To%20Predido.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-1-1783769583017-oel6j",
-        "title": "Rawhide",
-        "description": "The challenges faced by the drovers of a cattle drive on the Sedalia Trail.",
-        "year": "1959",
-        "genre": "Adventure",
-        "episodes": [
-          {
-            "id": "rcs-ep-1-1783769583017",
-            "title": "Incident Of The Tumbleweed",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X01%20-%20Incident%20Of%20The%20Tumbleweed.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-2-1783769583017-t5p8x",
-        "title": "Naked City",
-        "description": "Gritty police procedurals tracking the stories and crimes of the vast New York metropolis.",
-        "year": "1958",
-        "genre": "Crime-Drama",
-        "episodes": [
-          {
-            "id": "rcs-ep-2-1783769583017",
-            "title": "Meridian",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E01%20Meridian.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-3-1783769583017-tu699",
-        "title": "The Twilight Zone",
-        "description": "Classic stories of mystery, sci-fi, and suspense that challenge reality.",
-        "year": "1959",
-        "genre": "Sci-Fi",
-        "episodes": [
-          {
-            "id": "rcs-ep-3-1783769583017",
-            "title": "Queen Of The Nile",
-            "season": "5",
-            "episodeNumber": "24",
-            "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/137-Twilight%20Zone_S05E24_Queen%20of%20the%20Nile%201.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-4-1783769583017-s6z1d",
-        "title": "Have Gun – Will Travel",
-        "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
-        "year": "1957",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-4-1783769583017",
-            "title": "The Outlaw",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E02%20The%20Outlaw.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-5-1783769583017-fdp8l",
-        "title": "Rawhide",
-        "description": "The challenges faced by the drovers of a cattle drive on the Sedalia Trail.",
-        "year": "1959",
-        "genre": "Adventure",
-        "episodes": [
-          {
-            "id": "rcs-ep-5-1783769583017",
-            "title": "Incident At Alabaster Plain",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X02%20-%20Incident%20At%20Alabaster%20Plain.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-6-1783769583017-wcvho",
-        "title": "Naked City",
-        "description": "Gritty police procedurals tracking the stories and crimes of the vast New York metropolis.",
-        "year": "1958",
-        "genre": "Crime-Drama",
-        "episodes": [
-          {
-            "id": "rcs-ep-6-1783769583017",
-            "title": "Nickel Ride",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E02%20Nickel%20Ride.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-7-1783769583017-9wkib",
-        "title": "The Twilight Zone",
-        "description": "Classic stories of mystery, sci-fi, and suspense that challenge reality.",
-        "year": "1959",
-        "genre": "Sci-Fi",
-        "episodes": [
-          {
-            "id": "rcs-ep-7-1783769583017",
-            "title": "Steel",
-            "season": "5",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/115-Twilight%20Zone_S05E02_Steel%201.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-8-1783769583017-4b8ky",
-        "title": "Have Gun – Will Travel",
-        "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
-        "year": "1957",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-8-1783769583017",
-            "title": "The Great Mojave Chase",
-            "season": "1",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E03%20The%20Great%20Mojave%20Chase.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-9-1783769583017-5id12",
-        "title": "Rawhide",
-        "description": "The challenges faced by the drovers of a cattle drive on the Sedalia Trail.",
-        "year": "1959",
-        "genre": "Adventure",
-        "episodes": [
-          {
-            "id": "rcs-ep-9-1783769583017",
-            "title": "Incident With An Executioner",
-            "season": "1",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X03%20-%20Incident%20With%20An%20Executioner.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-10-1783769583017-clor9",
-        "title": "Naked City",
-        "description": "Gritty police procedurals tracking the stories and crimes of the vast New York metropolis.",
-        "year": "1958",
-        "genre": "Crime-Drama",
-        "episodes": [
-          {
-            "id": "rcs-ep-10-1783769583017",
-            "title": "Line Of Duty",
-            "season": "1",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E03%20Line%20of%20Duty.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-11-1783769583017-col15",
-        "title": "The Twilight Zone",
-        "description": "Classic stories of mystery, sci-fi, and suspense that challenge reality.",
-        "year": "1959",
-        "genre": "Sci-Fi",
-        "episodes": [
-          {
-            "id": "rcs-ep-11-1783769583017",
-            "title": "Nightmare At 20,000 Feet",
-            "season": "5",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/116-Twilight%20Zone_S05E03_Nightmare%20at%2020,000%20Feet%201.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-12-1783769583017-iqvam",
-        "title": "Have Gun – Will Travel",
-        "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
-        "year": "1957",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-12-1783769583017",
-            "title": "Winchester Quarantine",
-            "season": "1",
-            "episodeNumber": "4",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E04%20Winchester%20Quarantine.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-13-1783769583017-dxi6o",
-        "title": "Wagon Train",
-        "description": "Following a caravan of pioneers as they make the grueling trek across the plains.",
-        "year": "1957",
-        "genre": "Adventure",
-        "episodes": [
-          {
-            "id": "rcs-ep-13-1783769583017",
-            "title": "The Willy Moran Story",
-            "season": "1",
-            "episodeNumber": "101",
-            "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E101_Ep%20101%20-%20The%20Willy%20Moran%20Story.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-14-1783769583017-jjl12",
-        "title": "Man with a Camera",
-        "description": "Charles Bronson stars as Mike Kovac, a freelance photojournalist helping solve city cases.",
-        "year": "1958",
-        "genre": "Mystery",
-        "episodes": [
-          {
-            "id": "rcs-ep-14-1783769583017",
-            "title": "Second Avenue Assassin",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E01_Second%20Avenue%20Assassin.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-15-1783769583017-7c03v",
-        "title": "Gunsmoke",
-        "description": "Marshall Matt Dillon maintains peace and justice in Dodge City.",
-        "year": "1955",
-        "genre": "Western-Drama",
-        "episodes": [
-          {
-            "id": "rcs-ep-15-1783769583017",
-            "title": "The Noose",
-            "season": "16",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E01%20(The%20Noose).ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-16-1783769583017-n70jm",
-        "title": "Have Gun – Will Travel",
-        "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
-        "year": "1957",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-16-1783769583017",
-            "title": "A Matter Of Ethics",
-            "season": "1",
-            "episodeNumber": "5",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E05%20A%20Matter%20Of%20Ethics.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-17-1783769583017-bbdq9",
-        "title": "Wagon Train",
-        "description": "Following a caravan of pioneers as they make the grueling trek across the plains.",
-        "year": "1957",
-        "genre": "Adventure",
-        "episodes": [
-          {
-            "id": "rcs-ep-17-1783769583017",
-            "title": "The Jean Lebec Story",
-            "season": "1",
-            "episodeNumber": "102",
-            "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E102_Ep%20102%20-%20The%20Jean%20Lebec%20Story.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-18-1783769583017-xpa7i",
-        "title": "Man with a Camera",
-        "description": "Charles Bronson stars as Mike Kovac, a freelance photojournalist helping solve city cases.",
-        "year": "1958",
-        "genre": "Mystery",
-        "episodes": [
-          {
-            "id": "rcs-ep-18-1783769583017",
-            "title": "The Warning",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E02_The%20Warning.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-19-1783769583017-k44gz",
-        "title": "Gunsmoke",
-        "description": "Marshall Matt Dillon maintains peace and justice in Dodge City.",
-        "year": "1955",
-        "genre": "Western-Drama",
-        "episodes": [
-          {
-            "id": "rcs-ep-19-1783769583017",
-            "title": "Chato",
-            "season": "16",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E02%20(Chato).ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-20-1783769583017-lfzo5",
-        "title": "Have Gun – Will Travel",
-        "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
-        "year": "1957",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-20-1783769583017",
-            "title": "The Bride",
-            "season": "1",
-            "episodeNumber": "6",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E06%20The%20Bride.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-21-1783769583017-lrwp2",
-        "title": "Wagon Train",
-        "description": "Following a caravan of pioneers as they make the grueling trek across the plains.",
-        "year": "1957",
-        "genre": "Adventure",
-        "episodes": [
-          {
-            "id": "rcs-ep-21-1783769583017",
-            "title": "The John Cameron Story",
-            "season": "1",
-            "episodeNumber": "103",
-            "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E103_Ep%20103%20-%20The%20John%20Cameron%20Story.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-22-1783769583017-lp1nb",
-        "title": "Man with a Camera",
-        "description": "Charles Bronson stars as Mike Kovac, a freelance photojournalist helping solve city cases.",
-        "year": "1958",
-        "genre": "Mystery",
-        "episodes": [
-          {
-            "id": "rcs-ep-22-1783769583017",
-            "title": "Turntable",
-            "season": "1",
-            "episodeNumber": "4",
-            "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E04_Turntable.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-23-1783769583017-1dcia",
-        "title": "Have Gun – Will Travel",
-        "description": "The adventures of Paladin, a gentleman gunfighter-for-hire living in San Francisco.",
-        "year": "1957",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-23-1783769583017",
-            "title": "Ella West",
-            "season": "1",
-            "episodeNumber": "17",
-            "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E17%20Ella%20West.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-24-1783769583017-9bdp2",
-        "title": "Johnny Staccato",
-        "description": "A Greenwich Village jazz pianist doubles as a private investigator in New York.",
-        "year": "1959",
-        "genre": "Noir-Crime",
-        "episodes": [
-          {
-            "id": "rcs-ep-24-1783769583017",
-            "title": "Viva, Paco!",
-            "season": "1",
-            "episodeNumber": "6",
-            "url": "https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E06.Viva,%20Paco!.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-25-1783769583017-zbkof",
-        "title": "Wanted: Dead or Alive",
-        "description": "Josh Randall is a sympathetic bounty hunter who gives a part of his bounty to his clients.",
-        "year": "1958",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-25-1783769583017",
-            "title": "The Martin Poster",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E01_Ep%201%20-%20The%20Martin%20Poster.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-26-1783769583017-lw94g",
-        "title": "Johnny Staccato",
-        "description": "A Greenwich Village jazz pianist doubles as a private investigator in New York.",
-        "year": "1959",
-        "genre": "Noir-Crime",
-        "episodes": [
-          {
-            "id": "rcs-ep-26-1783769583017",
-            "title": "Murder In Hi-Fi",
-            "season": "1",
-            "episodeNumber": "8",
-            "url": "https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E08.Murder%20in%20Hi-Fi.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-27-1783769583017-9c2rs",
-        "title": "Wanted: Dead or Alive",
-        "description": "Josh Randall is a sympathetic bounty hunter who gives a part of his bounty to his clients.",
-        "year": "1958",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-27-1783769583017",
-            "title": "Fatal Memory",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E02_Ep%202%20-%20Fatal%20Memory.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-28-1783769583017-x380e",
-        "title": "Wanted: Dead or Alive",
-        "description": "Josh Randall is a sympathetic bounty hunter who gives a part of his bounty to his clients.",
-        "year": "1958",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-28-1783769583017",
-            "title": "The Bounty",
-            "season": "1",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E03_Ep%203%20-%20The%20Bounty.mp4"
-          }
-        ]
-      },
-      {
-        "id": "rcs-show-29-1783769583017-fu8mh",
-        "title": "Wanted: Dead or Alive",
-        "description": "Josh Randall is a sympathetic bounty hunter who gives a part of his bounty to his clients.",
-        "year": "1958",
-        "genre": "Western",
-        "episodes": [
-          {
-            "id": "rcs-ep-29-1783769583017",
-            "title": "Dead End",
-            "season": "1",
-            "episodeNumber": "4",
-            "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E04_Ep%204%20-%20Dead%20End.mp4"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "ch-retro-sports",
-    "number": "103",
-    "name": "Retro Action & Trails",
-    "tagline": "High stakes cattle drives and dusty trails.",
-    "category": "Sports",
-    "logoText": "CAMP",
-    "accentColor": "#16a34a",
-    "shows": [
-      {
-        "id": "rawhide",
-        "title": "Rawhide",
-        "description": "The challenges faced by the drovers of a cattle drive on the Sedalia Trail.",
-        "year": "1959",
-        "genre": "Adventure",
-        "episodes": [
-          {
-            "id": "raw-01",
-            "title": "Incident Of The Tumbleweed",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X01%20-%20Incident%20Of%20The%20Tumbleweed.mp4"
-          },
-          {
-            "id": "raw-02",
-            "title": "Incident At Alabaster Plain",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X02%20-%20Incident%20At%20Alabaster%20Plain.mp4"
-          },
-          {
-            "id": "raw-03",
-            "title": "Incident With An Executioner",
-            "season": "1",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X03%20-%20Incident%20With%20An%20Executioner.mp4"
-          }
-        ]
-      },
-      {
-        "id": "wagon-train",
-        "title": "Wagon Train",
-        "description": "Following a caravan of pioneers as they make the grueling trek across the plains.",
-        "year": "1957",
-        "genre": "Adventure",
-        "episodes": [
-          {
-            "id": "wt-01",
-            "title": "The Willy Moran Story",
-            "season": "1",
-            "episodeNumber": "101",
-            "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E101_Ep%20101%20-%20The%20Willy%20Moran%20Story.ia.mp4"
-          },
-          {
-            "id": "wt-02",
-            "title": "The Jean Lebec Story",
-            "season": "1",
-            "episodeNumber": "102",
-            "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E102_Ep%20102%20-%20The%20Jean%20Lebec%20Story.ia.mp4"
-          },
-          {
-            "id": "wt-03",
-            "title": "The John Cameron Story",
-            "season": "1",
-            "episodeNumber": "103",
-            "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E103_Ep%20103%20-%20The%20John%20Cameron%20Story.ia.mp4"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "ch-retro-news",
-    "number": "104",
-    "name": "Naked City Crime Journal",
-    "tagline": "The grit, the truth, and the lenses of metropolitan squad rooms.",
-    "category": "News",
-    "logoText": "CITY",
-    "accentColor": "#2563eb",
-    "shows": [
-      {
-        "id": "naked-city",
-        "title": "Naked City",
-        "description": "Gritty police procedurals tracking the stories and crimes of the vast New York metropolis.",
-        "year": "1958",
-        "genre": "Crime-Drama",
-        "episodes": [
-          {
-            "id": "nc-01",
-            "title": "Meridian",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E01%20Meridian.mp4"
-          },
-          {
-            "id": "nc-02",
-            "title": "Nickel Ride",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E02%20Nickel%20Ride.mp4"
-          },
-          {
-            "id": "nc-03",
-            "title": "Line Of Duty",
-            "season": "1",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E03%20Line%20of%20Duty.mp4"
-          }
-        ]
-      },
-      {
-        "id": "man-with-a-camera",
-        "title": "Man with a Camera",
-        "description": "Charles Bronson stars as Mike Kovac, a freelance photojournalist helping solve city cases.",
-        "year": "1958",
-        "genre": "Mystery",
-        "episodes": [
-          {
-            "id": "mwc-01",
-            "title": "Second Avenue Assassin",
-            "season": "1",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E01_Second%20Avenue%20Assassin.ia.mp4"
-          },
-          {
-            "id": "mwc-02",
-            "title": "The Warning",
-            "season": "1",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E02_The%20Warning.ia.mp4"
-          },
-          {
-            "id": "mwc-03",
-            "title": "Turntable",
-            "season": "1",
-            "episodeNumber": "4",
-            "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E04_Turntable.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "johnny-staccato",
-        "title": "Johnny Staccato",
-        "description": "A Greenwich Village jazz pianist doubles as a private investigator in New York.",
-        "year": "1959",
-        "genre": "Noir-Crime",
-        "episodes": [
-          {
-            "id": "js-01",
-            "title": "Viva, Paco!",
-            "season": "1",
-            "episodeNumber": "6",
-            "url": "https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E06.Viva,%20Paco!.ia.mp4"
-          },
-          {
-            "id": "js-02",
-            "title": "Murder In Hi-Fi",
-            "season": "1",
-            "episodeNumber": "8",
-            "url": "https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E08.Murder%20in%20Hi-Fi.ia.mp4"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "ch-retro-kids",
-    "number": "105",
-    "name": "Sci-Fi Dimension & Drama",
-    "tagline": "Unlock the gate to a world of endless imagination.",
-    "category": "Kids",
-    "logoText": "ZONE",
-    "accentColor": "#db2777",
-    "shows": [
-      {
-        "id": "twilight-zone",
-        "title": "The Twilight Zone",
-        "description": "Classic stories of mystery, sci-fi, and suspense that challenge reality.",
-        "year": "1959",
-        "genre": "Sci-Fi",
-        "episodes": [
-          {
-            "id": "tz-01",
-            "title": "Queen Of The Nile",
-            "season": "5",
-            "episodeNumber": "24",
-            "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/137-Twilight%20Zone_S05E24_Queen%20of%20the%20Nile%201.ia.mp4"
-          },
-          {
-            "id": "tz-02",
-            "title": "Steel",
-            "season": "5",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/115-Twilight%20Zone_S05E02_Steel%201.ia.mp4"
-          },
-          {
-            "id": "tz-03",
-            "title": "Nightmare At 20,000 Feet",
-            "season": "5",
-            "episodeNumber": "3",
-            "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/116-Twilight%20Zone_S05E03_Nightmare%20at%2020,000%20Feet%201.ia.mp4"
-          }
-        ]
-      },
-      {
-        "id": "gunsmoke",
-        "title": "Gunsmoke",
-        "description": "Marshall Matt Dillon maintains peace and justice in Dodge City.",
-        "year": "1955",
-        "genre": "Western-Drama",
-        "episodes": [
-          {
-            "id": "gs-01",
-            "title": "The Noose",
-            "season": "16",
-            "episodeNumber": "1",
-            "url": "https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E01%20(The%20Noose).ia.mp4"
-          },
-          {
-            "id": "gs-02",
-            "title": "Chato",
-            "season": "16",
-            "episodeNumber": "2",
-            "url": "https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E02%20(Chato).ia.mp4"
-          }
-        ]
-      }
-    ]
-  }
-];
+    const CHANNELS = ${channelsJson};
 
     let activeChannel = null;
     let currentHlsInstance = null;
     let hasInteracted = false;
+    let selectedCategory = 'All';
+    let searchQuery = '';
+    let videoFit = 'cover'; // cover vs contain
+    
+    // Drawers states
+    let isLeftDrawerOpen = false;
+    let isBottomGuideOpen = false;
 
     // 2. TIMELINE LOOP SCHEDULER
     function getLiveEpisodeForChannel(channel, timestampMs) {
-      // Aggregate all episodes across all shows in the channel to form a continuous loop
       const playlistItems = [];
       if (channel.shows && channel.shows.length > 0) {
         channel.shows.forEach(show => {
@@ -1025,7 +249,6 @@
       }
 
       if (playlistItems.length === 0) {
-        // Fallback if no shows / episodes structured, create mock VOD stream
         const fallbackShow = {
           id: 'vod-' + channel.id,
           title: channel.name + ' Direct Stream',
@@ -1040,7 +263,6 @@
       const SLOT_DURATION_MS = 30 * 60 * 1000; // 30 minutes
       const totalLoopDurationMs = playlistItems.length * SLOT_DURATION_MS;
 
-      // Find where we are in the endless loop
       const positionInLoopMs = timestampMs % totalLoopDurationMs;
       const currentSlotIndex = Math.floor(positionInLoopMs / SLOT_DURATION_MS);
       const seekOffsetMs = positionInLoopMs % SLOT_DURATION_MS;
@@ -1049,7 +271,6 @@
       const seekOffsetSeconds = seekOffsetMs / 1000;
       const remainingSeconds = (SLOT_DURATION_MS - seekOffsetMs) / 1000;
 
-      // Make Slot times
       const currentHourBoundary = timestampMs - (timestampMs % SLOT_DURATION_MS);
       
       const makeSlot = (indexInPlaylist, boundaryMs) => {
@@ -1067,9 +288,9 @@
 
       const currentSlot = makeSlot(currentSlotIndex, currentHourBoundary);
 
-      // Generate 4 upcoming slots
+      // Generate upcoming schedule slots
       const upcomingSlots = [];
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 6; i++) {
         upcomingSlots.push(makeSlot(currentSlotIndex + i, currentHourBoundary + i * SLOT_DURATION_MS));
       }
 
@@ -1085,67 +306,127 @@
 
     // 3. MAIN WORKSPACE ENGINE
     function updateClock() {
-      const clockEl = document.getElementById('system-clock');
+      const clockString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const clockEl = document.getElementById('guide-clock');
       if (clockEl) {
-        clockEl.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        clockEl.innerText = clockString;
       }
     }
 
-    function renderChannels() {
-      const container = document.getElementById('channel-list');
-      const countEl = document.getElementById('channel-count');
-      container.innerHTML = '';
-      countEl.innerText = CHANNELS.length;
+    // Render Categories buttons in Sidebar Drawer
+    function renderCategories() {
+      const ribbon = document.getElementById('drawer-categories');
+      ribbon.innerHTML = '';
 
-      CHANNELS.forEach(ch => {
-        const item = document.createElement('button');
-        item.className = 'w-full text-left p-3 rounded-lg border border-white/5 bg-[#12131b]/40 hover:bg-[#1a1c29]/50 transition-colors flex items-center gap-3 cursor-pointer group focus:outline-none focus:border-purple-500/40';
-        item.onclick = () => selectChannel(ch);
+      const distinctCategories = ['All', ...new Set(CHANNELS.map(c => c.category || 'General'))];
+      
+      distinctCategories.forEach(cat => {
+        const btn = document.createElement('button');
+        const isActive = selectedCategory === cat;
+        btn.className = \`px-2.5 py-1 text-[9px] font-mono font-black uppercase tracking-widest rounded-full transition-all shrink-0 cursor-pointer border \${
+          isActive
+            ? 'bg-[#8c5cd0] border-[#8c5cd0] text-white shadow-md'
+            : 'bg-[#111116] border-white/5 text-gray-400 hover:bg-[#1a1a24] hover:text-white'
+        }\`;
+        btn.innerText = cat;
+        btn.onclick = () => {
+          selectedCategory = cat;
+          renderCategories();
+          renderChannels();
+        };
+        ribbon.appendChild(btn);
+      });
+    }
+
+    // Render Station Buttons in Sidebar Drawer
+    function renderChannels() {
+      const container = document.getElementById('drawer-channel-list');
+      container.innerHTML = '';
+
+      const filtered = CHANNELS.filter(ch => {
+        const matchCat = selectedCategory === 'All' || ch.category === selectedCategory;
+        const matchSearch = !searchQuery || 
+          ch.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          ch.number.toString().includes(searchQuery) ||
+          (ch.category && ch.category.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchCat && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-white/30 text-[10px] font-mono uppercase tracking-widest">No stations found</div>';
+        return;
+      }
+
+      filtered.forEach(ch => {
+        const btn = document.createElement('button');
+        const isActive = activeChannel && activeChannel.id === ch.id;
+        
+        btn.className = \`w-full text-left p-2.5 rounded-lg border transition-all flex items-center gap-3 cursor-pointer group focus:outline-none \${
+          isActive
+            ? 'bg-[#8c5cd0]/20 border-[#8c5cd0]/60 shadow-lg shadow-purple-500/5'
+            : 'border-white/5 bg-[#12131b]/30 hover:bg-[#1a1c29]/50 hover:border-white/10'
+        }\`;
+        btn.onclick = () => {
+          selectChannel(ch);
+        };
 
         const badge = document.createElement('div');
-        badge.className = 'w-10 h-6 rounded flex items-center justify-center text-[9px] font-black tracking-widest text-white font-mono shrink-0';
+        badge.className = 'w-10 h-6 rounded flex items-center justify-center text-[9px] font-black tracking-widest text-white font-mono shrink-0 select-none';
         badge.style.backgroundColor = ch.accentColor || '#8c5cd0';
         badge.innerText = ch.logoText || 'LIVE';
 
         const textCont = document.createElement('div');
-        textCont.className = 'overflow-hidden text-left';
+        textCont.className = 'overflow-hidden text-left flex-1';
         
         const numberSpan = document.createElement('span');
-        numberSpan.className = 'text-[9px] font-mono text-purple-400 block';
+        numberSpan.className = \`text-[9px] font-mono block \${isActive ? 'text-purple-400 font-bold' : 'text-purple-400/60'}\`;
         numberSpan.innerText = 'CH ' + ch.number;
 
         const nameSpan = document.createElement('span');
-        nameSpan.className = 'text-xs font-bold text-gray-200 group-hover:text-white truncate block';
+        nameSpan.className = \`text-xs font-bold truncate block \${isActive ? 'text-white' : 'text-gray-300 group-hover:text-white'}\`;
         nameSpan.innerText = ch.name;
 
         textCont.appendChild(numberSpan);
         textCont.appendChild(nameSpan);
-        item.appendChild(badge);
-        item.appendChild(textCont);
-        container.appendChild(item);
+        btn.appendChild(badge);
+        btn.appendChild(textCont);
+        container.appendChild(btn);
       });
     }
 
     function selectChannel(channel) {
       activeChannel = channel;
-      document.getElementById('player-splash').style.opacity = '1';
-      document.getElementById('player-splash').style.pointerEvents = 'auto';
+      
+      // Update glow backdrops
+      const color = channel.accentColor || '#8c5cd0';
+      document.getElementById('ambient-backdrop-glow').style.background = \`radial-gradient(circle at 50% 50%, \${color} 0%, transparent 70%)\`;
+      document.getElementById('drawer-glow').style.background = \`radial-gradient(circle at 50% 50%, \${color} 0%, transparent 75%)\`;
+      document.getElementById('guide-glow').style.background = \`radial-gradient(circle at 50% 100%, \${color} 0%, transparent 75%)\`;
 
+      // Update splash fields
       document.getElementById('splash-channel-name').innerText = channel.name;
-      document.getElementById('splash-status-text').innerText = "Simulated Loop Ready";
+      document.getElementById('splash-status-text').innerText = "Tuned & Scheduled";
 
-      // Update tuning panel details
-      document.getElementById('detail-channel-name').innerText = channel.name;
-      document.getElementById('detail-channel-tag').innerText = channel.tagline || 'Direct scheduled IPTV stream.';
-      document.getElementById('detail-channel-group').innerText = channel.category || 'General';
-      document.getElementById('detail-channel-logo').style.backgroundColor = channel.accentColor || '#8c5cd0';
+      // HUD channels list
+      document.getElementById('hud-channel-name').innerText = channel.name;
 
-      const directUrl = channel.url || (channel.shows && channel.shows[0]?.episodes[0]?.url) || '';
-      document.getElementById('detail-stream-url').innerText = directUrl;
+      // Bottom guide metadata
+      document.getElementById('guide-channel-name').innerText = channel.name;
+      document.getElementById('guide-channel-tagline').innerText = channel.category ? 'Genre: ' + channel.category : 'IPTV Auto-Scheduled';
+      
+      const guideBadge = document.getElementById('guide-badge');
+      guideBadge.style.backgroundColor = color;
+      guideBadge.innerText = channel.logoText || 'LIVE';
 
       updateEPGAndSchedule();
+      renderChannels();
+
       if (hasInteracted) {
         startActiveStream();
+      } else {
+        // Prepare splash
+        document.getElementById('player-splash').style.opacity = '1';
+        document.getElementById('player-splash').style.pointerEvents = 'auto';
       }
     }
 
@@ -1155,44 +436,47 @@
       const now = Date.now();
       const liveInfo = getLiveEpisodeForChannel(activeChannel, now);
 
-      // Main active show displays
-      document.getElementById('live-epg-title').innerText = liveInfo.show.title;
-      document.getElementById('live-epg-meta').innerText = 'S' + (liveInfo.episode.season || '1') + ' EP' + (liveInfo.episode.episodeNumber || '1') + ' • ' + liveInfo.episode.title;
-      document.getElementById('detail-epg-status').innerHTML = '<svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Active Show: ' + liveInfo.show.title;
+      // Render current show fields
+      document.getElementById('guide-current-show-title').innerText = liveInfo.show.title;
+      document.getElementById('guide-current-show-episode').innerText = 'S' + (liveInfo.episode.season || '01') + ' EP' + (liveInfo.episode.episodeNumber || '01') + ' • ' + liveInfo.episode.title;
 
-      // Overlay player details
-      document.getElementById('overlay-show-title').innerText = liveInfo.show.title;
-      document.getElementById('overlay-episode-title').innerText = 'S' + (liveInfo.episode.season || '1') + ' EP' + (liveInfo.episode.episodeNumber || '1') + ' • ' + liveInfo.episode.title;
-
-      // Render upcoming Slots list
-      const slotsContainer = document.getElementById('epg-slots');
+      // Render slots list inside TV Guide slideout
+      const slotsContainer = document.getElementById('guide-slots');
       slotsContainer.innerHTML = '';
 
+      // Include current slot as active
+      const activeSlot = liveInfo.currentSlot;
+      const actDiv = document.createElement('div');
+      actDiv.className = 'flex-1 min-w-[220px] max-w-[280px] p-3 rounded-lg border border-purple-500/40 bg-purple-950/20 flex flex-col justify-between shrink-0';
+      actDiv.innerHTML = \`
+        <div>
+          <div class="flex items-center justify-between gap-1.5 mb-1.5">
+            <span class="text-[9px] font-mono text-purple-300 font-bold tracking-widest">\${activeSlot.timeLabel}</span>
+            <span class="px-1.5 py-0.5 rounded bg-red-600 text-[8px] font-black text-white font-mono tracking-widest animate-pulse">LIVE NOW</span>
+          </div>
+          <h4 class="text-xs font-black text-white uppercase tracking-wider truncate">\${activeSlot.show.title}</h4>
+          <p class="text-[10px] text-white/60 truncate mt-0.5">\${activeSlot.episode.title}</p>
+        </div>
+        <div class="text-[8px] font-mono text-purple-400/80 uppercase tracking-widest mt-2">Active broadcast segment</div>
+      \`;
+      slotsContainer.appendChild(actDiv);
+
+      // Remaining upcoming slots
       liveInfo.upcomingSlots.forEach(slot => {
-        const sDiv = document.createElement('div');
-        sDiv.className = 'p-2.5 rounded bg-[#11131c]/50 border border-white/5 flex items-center justify-between text-xs';
-        
-        const textSection = document.createElement('div');
-        textSection.className = 'text-left';
-        
-        const label = document.createElement('span');
-        label.className = 'text-[9px] font-mono text-purple-400 bg-purple-950/30 px-1.5 py-0.5 rounded border border-purple-500/10 mr-2';
-        label.innerText = slot.timeLabel;
-
-        const titleText = document.createElement('span');
-        titleText.className = 'font-semibold text-gray-200';
-        titleText.innerText = slot.show.title + ' - ' + slot.episode.title;
-
-        textSection.appendChild(label);
-        textSection.appendChild(titleText);
-
-        const suffix = document.createElement('span');
-        suffix.className = 'text-[9px] font-mono text-gray-500 uppercase tracking-widest';
-        suffix.innerText = 'SLOT';
-
-        sDiv.appendChild(textSection);
-        sDiv.appendChild(suffix);
-        slotsContainer.appendChild(sDiv);
+        const slotDiv = document.createElement('div');
+        slotDiv.className = 'flex-1 min-w-[220px] max-w-[280px] p-3 rounded-lg border border-white/5 bg-[#111116]/40 hover:bg-[#1a1a24]/50 hover:border-white/10 flex flex-col justify-between shrink-0 transition-colors';
+        slotDiv.innerHTML = \`
+          <div>
+            <div class="flex items-center justify-between gap-1.5 mb-1.5">
+              <span class="text-[9px] font-mono text-purple-400/70 font-bold tracking-widest">\${slot.timeLabel}</span>
+              <span class="text-[8px] font-mono text-gray-500 tracking-widest uppercase">UPCOMING</span>
+            </div>
+            <h4 class="text-xs font-bold text-gray-200 truncate uppercase tracking-wide">\${slot.show.title}</h4>
+            <p class="text-[10px] text-gray-400 truncate mt-0.5">\${slot.episode.title}</p>
+          </div>
+          <div class="text-[8px] font-mono text-gray-500 uppercase tracking-widest mt-2">Scheduled Segment</div>
+        \`;
+        slotsContainer.appendChild(slotDiv);
       });
     }
 
@@ -1207,7 +491,7 @@
       const streamUrl = liveInfo.episode.url || activeChannel.url || '';
 
       if (!streamUrl) {
-        document.getElementById('splash-status-text').innerText = "NO STREAM PATH FOUND";
+        document.getElementById('splash-status-text').innerText = "STREAM PATH NOT COMPATIBLE";
         return;
       }
 
@@ -1221,23 +505,36 @@
         currentHlsInstance = null;
       }
 
-      // Reset any previous listeners to prevent leakage
       video.onloadedmetadata = null;
-      video.oncanplay = null;
+      video.onplaying = null;
+      video.onwaiting = null;
+      video.onstalled = null;
 
-      // Set up safe single-use metadata loaded seek mechanism
+      // Handle loading overlay status state
+      setSpinnerVisible(true);
+
       video.onloadedmetadata = function() {
-        video.onloadedmetadata = null; // Unbind immediately to prevent any loops!
-        const actualDuration = video.duration;
-        if (actualDuration && actualDuration > 0) {
-          // Safe wrap: handle cases where current slot time offset is longer than actual video duration
-          const safeSeekOffset = liveInfo.seekOffsetSeconds % actualDuration;
-          video.currentTime = safeSeekOffset;
-          console.log("Safe seek offset configured: " + safeSeekOffset + "s (actual duration: " + actualDuration + "s)");
+        video.onloadedmetadata = null;
+        const duration = video.duration;
+        if (duration && duration > 0) {
+          const seek = liveInfo.seekOffsetSeconds % duration;
+          video.currentTime = seek;
         } else {
           video.currentTime = liveInfo.seekOffsetSeconds;
-          console.log("Raw seek offset configured: " + liveInfo.seekOffsetSeconds + "s");
         }
+      };
+
+      // Set up responsive state listeners
+      video.onplaying = function() {
+        setSpinnerVisible(false);
+      };
+      
+      video.onwaiting = function() {
+        setSpinnerVisible(true);
+      };
+      
+      video.onstalled = function() {
+        setSpinnerVisible(true);
       };
 
       const isHls = streamUrl.includes('.m3u8') || streamUrl.includes('m3u8');
@@ -1252,12 +549,14 @@
         currentHlsInstance = hls;
 
         hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          video.play().catch(e => console.log("Autoplay policy blocked or delayed play: " + e));
+          video.play().catch(e => {
+            console.log("Autoplay policy delayed audio loop: " + e);
+            setSpinnerVisible(false);
+          });
         });
 
         hls.on(Hls.Events.ERROR, function(event, data) {
           if (data.fatal) {
-            console.warn("HLS fatal error encountered, trying recover: ", data);
             switch(data.type) {
               case Hls.ErrorTypes.NETWORK_ERROR:
                 hls.startLoad();
@@ -1271,10 +570,81 @@
           }
         });
       } else {
-        // Native HTML5 (MP4, WebM or safari HLS native support)
         video.src = streamUrl;
         video.load();
-        video.play().catch(e => console.log("Autoplay policy blocked native play: " + e));
+        video.play().catch(e => {
+          console.log("Native video fallback play: " + e);
+          setSpinnerVisible(false);
+        });
+      }
+    }
+
+    function setSpinnerVisible(visible) {
+      const spinner = document.getElementById('buffer-spinner');
+      if (visible) {
+        spinner.style.opacity = '1';
+      } else {
+        spinner.style.opacity = '0';
+      }
+    }
+
+    // Interactive toggles
+    function toggleLeftDrawer() {
+      const drawer = document.getElementById('left-drawer');
+      const keys = document.getElementById('corner-keys');
+      isLeftDrawerOpen = !isLeftDrawerOpen;
+      
+      if (isLeftDrawerOpen) {
+        drawer.style.transform = 'translateX(0)';
+        keys.style.opacity = '0';
+      } else {
+        drawer.style.transform = 'translateX(-100%)';
+        keys.style.opacity = '1';
+      }
+    }
+
+    // Explicitly handle mouse hover behavior on left drawer for auto-hide
+    const drawerEl = document.getElementById('left-drawer');
+    drawerEl.onmouseleave = function() {
+      if (isLeftDrawerOpen) {
+        toggleLeftDrawer();
+      }
+    };
+
+    function toggleBottomGuide() {
+      const guide = document.getElementById('bottom-guide');
+      const keys = document.getElementById('corner-keys');
+      isBottomGuideOpen = !isBottomGuideOpen;
+
+      if (isBottomGuideOpen) {
+        guide.style.transform = 'translateY(0)';
+        keys.style.opacity = '0';
+      } else {
+        guide.style.transform = 'translateY(100%)';
+        keys.style.opacity = '1';
+      }
+    }
+
+    // Explicitly handle mouse hover behavior on bottom guide for auto-hide
+    const guideEl = document.getElementById('bottom-guide');
+    guideEl.onmouseleave = function() {
+      if (isBottomGuideOpen) {
+        toggleBottomGuide();
+      }
+    };
+
+    function toggleAspectRatio() {
+      const video = document.getElementById('video-element');
+      const btn = document.getElementById('hud-ratio-btn');
+      
+      if (videoFit === 'cover') {
+        videoFit = 'contain';
+        video.style.objectFit = 'contain';
+        btn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span><span>RATIO: CONTAIN</span>';
+      } else {
+        videoFit = 'cover';
+        video.style.objectFit = 'cover';
+        btn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span><span>RATIO: COVER</span>';
       }
     }
 
@@ -1284,20 +654,46 @@
       startActiveStream();
     };
 
-    // Custom play/pause listener on click to avoid interaction dead zones
+    document.getElementById('hud-ratio-btn').onclick = toggleAspectRatio;
+    document.getElementById('hud-menu-btn').onclick = toggleLeftDrawer;
+    document.getElementById('hud-guide-btn').onclick = toggleBottomGuide;
+
+    // Search filter typing listener
+    document.getElementById('drawer-search').oninput = function(e) {
+      searchQuery = e.target.value;
+      renderChannels();
+    };
+
+    // Video play/pause on click
     const video = document.getElementById('video-element');
     video.onclick = function() {
       if (!hasInteracted) return;
       if (video.paused) {
-        video.play().catch(e => console.log("Stream play blocked or failed: " + e));
-        document.getElementById('splash-status-text').innerText = "Streaming Active";
+        video.play().catch(e => console.log(e));
       } else {
         video.pause();
-        document.getElementById('splash-status-text').innerText = "Streaming Paused";
       }
     };
 
-    // Stuck Detection Engine to handle rapid waiting loop state stalls
+    // Hotkeys binding
+    document.addEventListener('keydown', function(e) {
+      const key = e.key.toLowerCase();
+      if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+        return;
+      }
+      if (key === 'm') {
+        e.preventDefault();
+        toggleLeftDrawer();
+      } else if (key === 'g') {
+        e.preventDefault();
+        toggleBottomGuide();
+      } else if (key === 'a') {
+        e.preventDefault();
+        toggleAspectRatio();
+      }
+    });
+
+    // Stuck Detection loop
     let lastTime = video.currentTime;
     let lastChecked = Date.now();
     let consecutiveStuckCount = 0;
@@ -1311,8 +707,7 @@
           const durationSinceLastAdvance = now - lastChecked;
           if (durationSinceLastAdvance >= 1000) {
             consecutiveStuckCount++;
-            console.warn("[Playback Health]: Stuck detected at " + curTime.toFixed(3) + "s. Nudging currentTime by +0.1s (Attempt #" + consecutiveStuckCount + ")");
-            
+            console.warn("Stuck nudging " + curTime.toFixed(3) + "s (Attempt #" + consecutiveStuckCount + ")");
             video.currentTime = Math.min(video.duration || Infinity, curTime + 0.1);
             lastChecked = Date.now();
           }
@@ -1327,17 +722,19 @@
       }
     }, 250);
 
-    // 4. INITIALIZE BOOTSTRAP
+    // Bootstrap loading
     window.onload = function() {
       updateClock();
       setInterval(updateClock, 1000);
+      
+      renderCategories();
       renderChannels();
       
       if (CHANNELS.length > 0) {
         selectChannel(CHANNELS[0]);
       }
 
-      // Keep timeline synced up every 30 seconds
+      // Synchronize schedule and layout states every 30 seconds
       setInterval(() => {
         updateEPGAndSchedule();
       }, 30000);
