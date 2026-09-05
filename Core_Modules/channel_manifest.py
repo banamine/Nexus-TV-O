@@ -201,7 +201,7 @@ class ChannelManifest:
         for source in sources:
             raw = str(source)
             # Raw M3U text is a supported source; never treat it as a filesystem path.
-            if "\\n" in raw or raw.lstrip().startswith("#EXTM3U"):
+            if "\n" in raw or raw.lstrip().startswith("#EXTM3U"):
                 content = raw
             else:
                 path = Path(raw)
