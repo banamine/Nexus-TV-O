@@ -591,17 +591,10 @@
 
         hls.on(Hls.Events.ERROR, function(event, data) {
           if (data.fatal) {
-            switch(data.type) {
-              case Hls.ErrorTypes.NETWORK_ERROR:
-                hls.startLoad();
-                break;
-              case Hls.ErrorTypes.MEDIA_ERROR:
-                hls.recoverMediaError();
-                break;
-              default:
-                advanceAfterPlaybackError();
-                break;
-            }
+            // A fatal network, media, or decoding error should not pin the channel forever.
+            hls.destroy();
+            if (currentHlsInstance === hls) currentHlsInstance = null;
+            advanceAfterPlaybackError();
           }
         });
       } else {
