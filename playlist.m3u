@@ -1,11 +1,121 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",Classic Westerns HD
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",Three Bells To Perdido
 https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E01%20Three%20Bells%20To%20Predido.ia.mp4
-#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Classic Cinema & Movies
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",The Outlaw
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E02%20The%20Outlaw.ia.mp4
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",The Great Mojave Chase
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E03%20The%20Great%20Mojave%20Chase.ia.mp4
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",Winchester Quarantine
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E04%20Winchester%20Quarantine.ia.mp4
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",A Matter Of Ethics
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E05%20A%20Matter%20Of%20Ethics.ia.mp4
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",The Bride
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E06%20The%20Bride.ia.mp4
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",Ella West
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E17%20Ella%20West.ia.mp4
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",The Martin Poster
+https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E01_Ep%201%20-%20The%20Martin%20Poster.mp4
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",Fatal Memory
+https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E02_Ep%202%20-%20Fatal%20Memory.mp4
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",The Bounty
+https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E03_Ep%203%20-%20The%20Bounty.mp4
+#EXTINF:-1 tvg-id="ch-westerns" tvg-name="Classic Westerns HD" group-title="TV Shows",Dead End
+https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E04_Ep%204%20-%20Dead%20End.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Three Bells To Perdido
 https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E01%20Three%20Bells%20To%20Predido.ia.mp4
-#EXTINF:-1 tvg-id="ch-retro-sports" tvg-name="Retro Action & Trails" group-title="Westerns",Retro Action & Trails
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Incident Of The Tumbleweed
 https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X01%20-%20Incident%20Of%20The%20Tumbleweed.mp4
-#EXTINF:-1 tvg-id="ch-retro-news" tvg-name="Naked City Crime Journal" group-title="News",Naked City Crime Journal
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Meridian
 https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E01%20Meridian.mp4
-#EXTINF:-1 tvg-id="ch-retro-kids" tvg-name="Sci-Fi Dimension & Drama" group-title="Crime Shows",Sci-Fi Dimension & Drama
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Queen Of The Nile
 https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/137-Twilight%20Zone_S05E24_Queen%20of%20the%20Nile%201.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The Outlaw
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E02%20The%20Outlaw.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Incident At Alabaster Plain
+https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X02%20-%20Incident%20At%20Alabaster%20Plain.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Nickel Ride
+https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E02%20Nickel%20Ride.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Steel
+https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/115-Twilight%20Zone_S05E02_Steel%201.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The Great Mojave Chase
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E03%20The%20Great%20Mojave%20Chase.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Incident With An Executioner
+https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X03%20-%20Incident%20With%20An%20Executioner.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Line Of Duty
+https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E03%20Line%20of%20Duty.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Nightmare At 20,000 Feet
+https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/116-Twilight%20Zone_S05E03_Nightmare%20at%2020,000%20Feet%201.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Winchester Quarantine
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E04%20Winchester%20Quarantine.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The Willy Moran Story
+https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E101_Ep%20101%20-%20The%20Willy%20Moran%20Story.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Second Avenue Assassin
+https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E01_Second%20Avenue%20Assassin.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The Noose
+https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E01%20(The%20Noose).ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",A Matter Of Ethics
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E05%20A%20Matter%20Of%20Ethics.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The Jean Lebec Story
+https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E102_Ep%20102%20-%20The%20Jean%20Lebec%20Story.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The Warning
+https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E02_The%20Warning.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Chato
+https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E02%20(Chato).ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The Bride
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E06%20The%20Bride.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The John Cameron Story
+https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E103_Ep%20103%20-%20The%20John%20Cameron%20Story.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Turntable
+https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E04_Turntable.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Ella West
+https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E17%20Ella%20West.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Viva, Paco!
+https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E06.Viva,%20Paco!.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The Martin Poster
+https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E01_Ep%201%20-%20The%20Martin%20Poster.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Murder In Hi-Fi
+https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E08.Murder%20in%20Hi-Fi.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Fatal Memory
+https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E02_Ep%202%20-%20Fatal%20Memory.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",The Bounty
+https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E03_Ep%203%20-%20The%20Bounty.mp4
+#EXTINF:-1 tvg-id="ch-retro-adventure" tvg-name="Classic Cinema & Movies" group-title="Movies",Dead End
+https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E04_Ep%204%20-%20Dead%20End.mp4
+#EXTINF:-1 tvg-id="ch-retro-sports" tvg-name="Retro Action & Trails" group-title="Westerns",Incident Of The Tumbleweed
+https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X01%20-%20Incident%20Of%20The%20Tumbleweed.mp4
+#EXTINF:-1 tvg-id="ch-retro-sports" tvg-name="Retro Action & Trails" group-title="Westerns",Incident At Alabaster Plain
+https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X02%20-%20Incident%20At%20Alabaster%20Plain.mp4
+#EXTINF:-1 tvg-id="ch-retro-sports" tvg-name="Retro Action & Trails" group-title="Westerns",Incident With An Executioner
+https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X03%20-%20Incident%20With%20An%20Executioner.mp4
+#EXTINF:-1 tvg-id="ch-retro-sports" tvg-name="Retro Action & Trails" group-title="Westerns",The Willy Moran Story
+https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E101_Ep%20101%20-%20The%20Willy%20Moran%20Story.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-sports" tvg-name="Retro Action & Trails" group-title="Westerns",The Jean Lebec Story
+https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E102_Ep%20102%20-%20The%20Jean%20Lebec%20Story.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-sports" tvg-name="Retro Action & Trails" group-title="Westerns",The John Cameron Story
+https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E103_Ep%20103%20-%20The%20John%20Cameron%20Story.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-news" tvg-name="Naked City Crime Journal" group-title="News",Meridian
+https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E01%20Meridian.mp4
+#EXTINF:-1 tvg-id="ch-retro-news" tvg-name="Naked City Crime Journal" group-title="News",Nickel Ride
+https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E02%20Nickel%20Ride.mp4
+#EXTINF:-1 tvg-id="ch-retro-news" tvg-name="Naked City Crime Journal" group-title="News",Line Of Duty
+https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E03%20Line%20of%20Duty.mp4
+#EXTINF:-1 tvg-id="ch-retro-news" tvg-name="Naked City Crime Journal" group-title="News",Second Avenue Assassin
+https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E01_Second%20Avenue%20Assassin.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-news" tvg-name="Naked City Crime Journal" group-title="News",The Warning
+https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E02_The%20Warning.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-news" tvg-name="Naked City Crime Journal" group-title="News",Turntable
+https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E04_Turntable.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-news" tvg-name="Naked City Crime Journal" group-title="News",Viva, Paco!
+https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E06.Viva,%20Paco!.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-news" tvg-name="Naked City Crime Journal" group-title="News",Murder In Hi-Fi
+https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E08.Murder%20in%20Hi-Fi.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-kids" tvg-name="Sci-Fi Dimension & Drama" group-title="Crime Shows",Queen Of The Nile
+https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/137-Twilight%20Zone_S05E24_Queen%20of%20the%20Nile%201.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-kids" tvg-name="Sci-Fi Dimension & Drama" group-title="Crime Shows",Steel
+https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/115-Twilight%20Zone_S05E02_Steel%201.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-kids" tvg-name="Sci-Fi Dimension & Drama" group-title="Crime Shows",Nightmare At 20,000 Feet
+https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/116-Twilight%20Zone_S05E03_Nightmare%20at%2020,000%20Feet%201.ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-kids" tvg-name="Sci-Fi Dimension & Drama" group-title="Crime Shows",The Noose
+https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E01%20(The%20Noose).ia.mp4
+#EXTINF:-1 tvg-id="ch-retro-kids" tvg-name="Sci-Fi Dimension & Drama" group-title="Crime Shows",Chato
+https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E02%20(Chato).ia.mp4
