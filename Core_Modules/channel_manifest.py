@@ -199,8 +199,13 @@ class ChannelManifest:
     def from_sources(cls, sources: Sequence[str | Path]) -> "ChannelManifest":
         result = cls()
         for source in sources:
-            path = Path(source)
-            content = path.read_text(encoding="utf-8") if path.exists() else str(source)
+            raw = str(source)
+            # Raw M3U text is a supported source; never treat it as a filesystem path.
+            if "\\n" in raw or raw.lstrip().startswith("#EXTM3U"):
+                content = raw
+            else:
+                path = Path(raw)
+                content = path.read_text(encoding="utf-8")
             result.merge(cls.from_m3u(content))
         return result
 
