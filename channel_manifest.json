@@ -1,0 +1,420 @@
+{
+  "version": 1,
+  "channels": [
+    {
+      "id": "ch-westerns",
+      "name": "Classic Westerns HD",
+      "category": "TV Shows",
+      "number": "101",
+      "tagline": "High-noon showdowns and frontier justice.",
+      "logo_text": "WSTN",
+      "accent_color": "#d97706",
+      "episodes": [
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E01%20Three%20Bells%20To%20Predido.ia.mp4",
+          "title": "Three Bells To Perdido",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E02%20The%20Outlaw.ia.mp4",
+          "title": "The Outlaw",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E03%20The%20Great%20Mojave%20Chase.ia.mp4",
+          "title": "The Great Mojave Chase",
+          "season": "1",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E04%20Winchester%20Quarantine.ia.mp4",
+          "title": "Winchester Quarantine",
+          "season": "1",
+          "episode_number": "4"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E05%20A%20Matter%20Of%20Ethics.ia.mp4",
+          "title": "A Matter Of Ethics",
+          "season": "1",
+          "episode_number": "5"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E06%20The%20Bride.ia.mp4",
+          "title": "The Bride",
+          "season": "1",
+          "episode_number": "6"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E17%20Ella%20West.ia.mp4",
+          "title": "Ella West",
+          "season": "1",
+          "episode_number": "17"
+        },
+        {
+          "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E01_Ep%201%20-%20The%20Martin%20Poster.mp4",
+          "title": "The Martin Poster",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E02_Ep%202%20-%20Fatal%20Memory.mp4",
+          "title": "Fatal Memory",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E03_Ep%203%20-%20The%20Bounty.mp4",
+          "title": "The Bounty",
+          "season": "1",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E04_Ep%204%20-%20Dead%20End.mp4",
+          "title": "Dead End",
+          "season": "1",
+          "episode_number": "4"
+        }
+      ]
+    },
+    {
+      "id": "ch-retro-adventure",
+      "name": "Classic Cinema & Movies",
+      "category": "Movies",
+      "number": "102",
+      "tagline": "Feature-length dramas and historic epics.",
+      "logo_text": "FILM",
+      "accent_color": "#9333ea",
+      "episodes": [
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E01%20Three%20Bells%20To%20Predido.ia.mp4",
+          "title": "Three Bells To Perdido",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X01%20-%20Incident%20Of%20The%20Tumbleweed.mp4",
+          "title": "Incident Of The Tumbleweed",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E01%20Meridian.mp4",
+          "title": "Meridian",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/137-Twilight%20Zone_S05E24_Queen%20of%20the%20Nile%201.ia.mp4",
+          "title": "Queen Of The Nile",
+          "season": "5",
+          "episode_number": "24"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E02%20The%20Outlaw.ia.mp4",
+          "title": "The Outlaw",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X02%20-%20Incident%20At%20Alabaster%20Plain.mp4",
+          "title": "Incident At Alabaster Plain",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E02%20Nickel%20Ride.mp4",
+          "title": "Nickel Ride",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/115-Twilight%20Zone_S05E02_Steel%201.ia.mp4",
+          "title": "Steel",
+          "season": "5",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E03%20The%20Great%20Mojave%20Chase.ia.mp4",
+          "title": "The Great Mojave Chase",
+          "season": "1",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X03%20-%20Incident%20With%20An%20Executioner.mp4",
+          "title": "Incident With An Executioner",
+          "season": "1",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E03%20Line%20of%20Duty.mp4",
+          "title": "Line Of Duty",
+          "season": "1",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/116-Twilight%20Zone_S05E03_Nightmare%20at%2020,000%20Feet%201.ia.mp4",
+          "title": "Nightmare At 20,000 Feet",
+          "season": "5",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E04%20Winchester%20Quarantine.ia.mp4",
+          "title": "Winchester Quarantine",
+          "season": "1",
+          "episode_number": "4"
+        },
+        {
+          "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E101_Ep%20101%20-%20The%20Willy%20Moran%20Story.ia.mp4",
+          "title": "The Willy Moran Story",
+          "season": "1",
+          "episode_number": "101"
+        },
+        {
+          "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E01_Second%20Avenue%20Assassin.ia.mp4",
+          "title": "Second Avenue Assassin",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E01%20(The%20Noose).ia.mp4",
+          "title": "The Noose",
+          "season": "16",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E05%20A%20Matter%20Of%20Ethics.ia.mp4",
+          "title": "A Matter Of Ethics",
+          "season": "1",
+          "episode_number": "5"
+        },
+        {
+          "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E102_Ep%20102%20-%20The%20Jean%20Lebec%20Story.ia.mp4",
+          "title": "The Jean Lebec Story",
+          "season": "1",
+          "episode_number": "102"
+        },
+        {
+          "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E02_The%20Warning.ia.mp4",
+          "title": "The Warning",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E02%20(Chato).ia.mp4",
+          "title": "Chato",
+          "season": "16",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E06%20The%20Bride.ia.mp4",
+          "title": "The Bride",
+          "season": "1",
+          "episode_number": "6"
+        },
+        {
+          "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E103_Ep%20103%20-%20The%20John%20Cameron%20Story.ia.mp4",
+          "title": "The John Cameron Story",
+          "season": "1",
+          "episode_number": "103"
+        },
+        {
+          "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E04_Turntable.ia.mp4",
+          "title": "Turntable",
+          "season": "1",
+          "episode_number": "4"
+        },
+        {
+          "url": "https://archive.org/download/s-01.-e-17-ella-west.ia/S01.E17%20Ella%20West.ia.mp4",
+          "title": "Ella West",
+          "season": "1",
+          "episode_number": "17"
+        },
+        {
+          "url": "https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E06.Viva,%20Paco!.ia.mp4",
+          "title": "Viva, Paco!",
+          "season": "1",
+          "episode_number": "6"
+        },
+        {
+          "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E01_Ep%201%20-%20The%20Martin%20Poster.mp4",
+          "title": "The Martin Poster",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E08.Murder%20in%20Hi-Fi.ia.mp4",
+          "title": "Murder In Hi-Fi",
+          "season": "1",
+          "episode_number": "8"
+        },
+        {
+          "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E02_Ep%202%20-%20Fatal%20Memory.mp4",
+          "title": "Fatal Memory",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E03_Ep%203%20-%20The%20Bounty.mp4",
+          "title": "The Bounty",
+          "season": "1",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/wanted-dead-or-alive-s-01-e-01-ep-1-the-martin-poster/Wanted_%20Dead%20or%20Alive_S01E04_Ep%204%20-%20Dead%20End.mp4",
+          "title": "Dead End",
+          "season": "1",
+          "episode_number": "4"
+        }
+      ]
+    },
+    {
+      "id": "ch-retro-sports",
+      "name": "Retro Action & Trails",
+      "category": "Westerns",
+      "number": "103",
+      "tagline": "High stakes cattle drives and dusty trails.",
+      "logo_text": "CAMP",
+      "accent_color": "#16a34a",
+      "episodes": [
+        {
+          "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X01%20-%20Incident%20Of%20The%20Tumbleweed.mp4",
+          "title": "Incident Of The Tumbleweed",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X02%20-%20Incident%20At%20Alabaster%20Plain.mp4",
+          "title": "Incident At Alabaster Plain",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/rawhide-3-x-30-incident-of-the-wager-on-payday/Rawhide%20-%201X03%20-%20Incident%20With%20An%20Executioner.mp4",
+          "title": "Incident With An Executioner",
+          "season": "1",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E101_Ep%20101%20-%20The%20Willy%20Moran%20Story.ia.mp4",
+          "title": "The Willy Moran Story",
+          "season": "1",
+          "episode_number": "101"
+        },
+        {
+          "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E102_Ep%20102%20-%20The%20Jean%20Lebec%20Story.ia.mp4",
+          "title": "The Jean Lebec Story",
+          "season": "1",
+          "episode_number": "102"
+        },
+        {
+          "url": "https://archive.org/download/wagon-train-s-01-e-101-ep-101-the-willy-moran-story/Wagon%20Train_S01E103_Ep%20103%20-%20The%20John%20Cameron%20Story.ia.mp4",
+          "title": "The John Cameron Story",
+          "season": "1",
+          "episode_number": "103"
+        }
+      ]
+    },
+    {
+      "id": "ch-retro-news",
+      "name": "Naked City Crime Journal",
+      "category": "News",
+      "number": "104",
+      "tagline": "The grit, the truth, and the lenses of metropolitan squad rooms.",
+      "logo_text": "CITY",
+      "accent_color": "#2563eb",
+      "episodes": [
+        {
+          "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E01%20Meridian.mp4",
+          "title": "Meridian",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E02%20Nickel%20Ride.mp4",
+          "title": "Nickel Ride",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/naked-city-s-01-e-01-meridian/Naked%20City%20S01E03%20Line%20of%20Duty.mp4",
+          "title": "Line Of Duty",
+          "season": "1",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E01_Second%20Avenue%20Assassin.ia.mp4",
+          "title": "Second Avenue Assassin",
+          "season": "1",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E02_The%20Warning.ia.mp4",
+          "title": "The Warning",
+          "season": "1",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/man-with-a-camera-s-01-e-04-turntable/Man%20with%20a%20Camera_S01E04_Turntable.ia.mp4",
+          "title": "Turntable",
+          "season": "1",
+          "episode_number": "4"
+        },
+        {
+          "url": "https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E06.Viva,%20Paco!.ia.mp4",
+          "title": "Viva, Paco!",
+          "season": "1",
+          "episode_number": "6"
+        },
+        {
+          "url": "https://archive.org/download/johnny-staccato.-s-01-e-26.-a-nice-little-town/Johnny%20Staccato.S01E08.Murder%20in%20Hi-Fi.ia.mp4",
+          "title": "Murder In Hi-Fi",
+          "season": "1",
+          "episode_number": "8"
+        }
+      ]
+    },
+    {
+      "id": "ch-retro-kids",
+      "name": "Sci-Fi Dimension & Drama",
+      "category": "Crime Shows",
+      "number": "105",
+      "tagline": "Unlock the gate to a world of endless imagination.",
+      "logo_text": "ZONE",
+      "accent_color": "#db2777",
+      "episodes": [
+        {
+          "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/137-Twilight%20Zone_S05E24_Queen%20of%20the%20Nile%201.ia.mp4",
+          "title": "Queen Of The Nile",
+          "season": "5",
+          "episode_number": "24"
+        },
+        {
+          "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/115-Twilight%20Zone_S05E02_Steel%201.ia.mp4",
+          "title": "Steel",
+          "season": "5",
+          "episode_number": "2"
+        },
+        {
+          "url": "https://archive.org/download/04-twilight-zone-s-01-e-04-16-millimeter-shrine/116-Twilight%20Zone_S05E03_Nightmare%20at%2020,000%20Feet%201.ia.mp4",
+          "title": "Nightmare At 20,000 Feet",
+          "season": "5",
+          "episode_number": "3"
+        },
+        {
+          "url": "https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E01%20(The%20Noose).ia.mp4",
+          "title": "The Noose",
+          "season": "16",
+          "episode_number": "1"
+        },
+        {
+          "url": "https://archive.org/download/gunsmoke-s-16-e-01-the-noose/Gunsmoke%20S16E02%20(Chato).ia.mp4",
+          "title": "Chato",
+          "season": "16",
+          "episode_number": "2"
+        }
+      ]
+    }
+  ]
+}
